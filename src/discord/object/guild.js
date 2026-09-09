@@ -184,12 +184,12 @@ class GuildObject extends EventEmitter {
   kickMember(user_id, reason) {
     return this.manager.member_manager.kickMember(this.id, user_id, reason);
   }
-
+  
   stopChannelJoinPrevention() {
-    const { manager, bound_on_voice_stat_update_listener } = this;
+    const { manager, bound_on_voice_state_update_listener } = this;
     const { connection_manager } = manager;
-    if (bound_on_voice_stat_update_listener)
-      connection_manager.off('VOICE_STATE_UPDATE', bound_on_voice_stat_update_listener);
+    if (bound_on_voice_state_update_listener)
+      connection_manager.off('VOICE_STATE_UPDATE', bound_on_voice_state_update_listener);
   }
 
   startChannelJoinPrevention(opts = {}) {
@@ -220,9 +220,8 @@ class GuildObject extends EventEmitter {
       });
     }
 
-    this.bound_on_voice_stat_update_listener = onVoiceUpdateMessage.bind(this);
-
-    connection_manager.on('VOICE_STATE_UPDATE', this.bound_on_voice_stat_update_listener);
+    this.bound_on_voice_state_update_listener = onVoiceUpdateMessage.bind(this);
+    connection_manager.on('VOICE_STATE_UPDATE', this.bound_on_voice_state_update_listener);
   }
 }
 
