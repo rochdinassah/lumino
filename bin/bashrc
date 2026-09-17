@@ -11,7 +11,7 @@ export HOST_PORT=7000
 alias open='xdg-open $(pwd)'
 alias root='sudo -s'
 alias update='npm update'
-alias azar='echo "globalThis.jotaiAtomCache.get(\"/app/src/stores/match/atoms.ts/matchSwipeDisableDurationSecondsAtom\").read = e => void 0;"'
+alias azar='echo "globalThis.jotaiAtomCache.get("/__w/azar-web-client/azar-web-client/src/stores/match/atoms.ts/matchSwipeDisableDurationSecondsAtom").read = e => void 0;"'
 alias webauth='cd /opt/webauth'
 alias desktop='cd /home/$(who|head -n 1|cut -d " " -f 1)/Desktop'
 alias c='clear'
