@@ -25,11 +25,15 @@ class CommandManager extends EventEmitter {
   }
 
   getCommandInfos(name_id) {
-    if (!name_id || Array.isArray(name_id)) {
-      const commands = Array.from(this.commands.values());
-      return name_id ? commands.filter(command => name_id.includes(command.name_id)) : commands;
-    }
-    return this.commands.get(name_id);
+    const { commands } = this;
+
+    if (Array.isArray(name_id))
+      return name_id.map(name_id => commands.get(name_id));
+
+    if (!name_id)
+      return Array.from(commands.values());
+
+    return commands.get(name_id);
   }
 }
 
