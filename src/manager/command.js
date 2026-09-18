@@ -13,7 +13,19 @@ class CommandManager extends EventEmitter {
 
     const { logger } = opts;
 
+    this.commands = new Map();
     this.logger = logger;
+  }
+
+  on(event_name, event_handler, description) {
+    return (
+      this.commands.set(event_name, { description }),
+      super.on(event_name, event_handler)
+    );
+  }
+
+  getCommandInfos(name_id) {
+    return this.commands.get(name_id);
   }
 }
 
