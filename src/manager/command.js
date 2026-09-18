@@ -26,7 +26,7 @@ class CommandManager extends EventEmitter {
 
   getCommandInfos(name_id) {
     if (!name_id)
-      return this.commands.values();
+      return Array.from(this.commands.values());
     return this.commands.get(name_id);
   }
 }
