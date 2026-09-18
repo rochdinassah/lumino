@@ -15,9 +15,6 @@ const { exec, execSync } = child_process;
 const { writeFileSync, appendFileSync, readFileSync, existsSync, unlinkSync, mkdirSync } = fs;
 const { readdirSync } = fs;
 
-global.stringify = JSON.stringify;
-global.parse = JSON.parse;
-
 global.exec = child_process.exec;
 global.execSync = child_process.execSync;
 global.writeFileSync = writeFileSync;
@@ -27,6 +24,9 @@ global.readdirSync = readdirSync;
 global.existsSync = existsSync;
 global.unlinkSync = unlinkSync;
 global.mkdirSync = mkdirSync;
+
+global.stringify = JSON.stringify;
+global.parse = JSON.parse;
 
 global.keys = Object.keys;
 global.values = Object.values;
@@ -161,25 +161,29 @@ global.parseHeaders = function (raw) {
 };
 
 const timer_map = new Map();
-global.startTimer = function (label) {
-  if (!timer_map.has(label))
-    timer_map.set(label, new Date());  
+timer_map.dynamic_id = 0;
+global.startTimer = function (id) {
+  if (!id)
+    id = timer_map.dynamic_id++;
+  if (!timer_map.has(id))
+    timer_map.set(id, new Date());
+  return id;
 };
 
-global.endTimer = function (label, format = true) {
-  const timer = getTimer(label, format);
-  timer_map.delete(label);
+global.endTimer = function (id, format = true) {
+  const timer = getTimer(id, format);
+  timer_map.delete(id);
   return timer;
 };
 
-global.getTimer = function (label, format = true) {
-  const timer = timer_map.get(label) ?? new Date();
+global.getTimer = function (id, format = true) {
+  const timer = timer_map.get(id) ?? new Date();
   const diff = new Date()-timer;
   return format ? formatDuration(diff) : diff;
 };
 
-global.hasTimer = function (label) {
-  return timer_map.has(label);
+global.hasTimer = function (id) {
+  return timer_map.has(id);
 };
 
 global.getTime = function (with_seconds = false) {
