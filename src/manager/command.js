@@ -19,7 +19,7 @@ class CommandManager extends EventEmitter {
 
   on(event_name, event_handler, description) {
     return (
-      this.commands.set(event_name, { description }),
+      this.commands.set(event_name, { name_id: event_name, description }),
       super.on(event_name, event_handler)
     );
   }
